@@ -1,0 +1,58 @@
+* {
+    box-sizing: border-box;
+    /* border: 0.5px solid red; */
+    font-size: 1.3rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+.button-container {
+    display: grid;
+    justify-content: center;
+    min-height: 100vh;
+    align-content: center;
+    grid-template-columns: repeat(4, 125px);
+    column-gap: 5px;
+    row-gap: 5px;
+    grid-template-rows: repeat(9, 75px);
+}
+
+button {
+    outline: none;
+}
+
+button:hover {
+    background: rgb(61, 61, 61);
+    color: white
+}
+
+.op {
+    display: grid;
+    background: black;
+    justify-content: space-between;
+    text-align: right;
+    grid-column: span 4;
+    grid-row: span 2;
+}
+
+.saved {
+    color: rgb(35, 223, 35);
+    margin: 10px;
+    grid-column: span 4;
+    opacity: 0.9;
+}
+
+.current {
+    font-size: 1.5rem;
+    align-self: center;
+    color: white;
+    margin: 10px;
+    grid-column: span 4;
+}
+
+.all-clear, .clear, .zero {
+    grid-column: span 2;
+}
+
+.enter {
+    grid-column: span 4;
+}
