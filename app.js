@@ -13,16 +13,18 @@ const state = {
   memory: ""
 };
 
-const evaluate = ({ operation }) => {
-  const evaluation = eval(operation);
+const evaluate = ({ memory }) => {
+  const evaluation = eval(memory);546565
   return evaluation;
 };
 
 const handleNumPadEntry = e => {
-  const keyValue = e.keyCode === 13 ? "enter" : String.fromCharCode(e.keyCode);
-  if (!keyValue) return;
+  if (e.keyCode === 13 || (e.keyCode < 60 && e.keyCode > 40)) {
+    const keyValue =
+      e.keyCode === 13 ? "enter" : String.fromCharCode(e.keyCode);
 
-  return handleEntry(keyValue);
+    return handleEntry(keyValue);
+  }
 };
 
 const handleClickedButtonEntry = e => {
@@ -35,11 +37,11 @@ const handleClickedButtonEntry = e => {
 function handleEntry(entry) {
   switch (entry) {
     case "enter":
-      const evaluatedExp = evaluate(state);
-      showCurrentEntry.textContent = "";
-      showStoredMemory.textContent = evaluatedExp;
-      state.memory = evaluatedExp;
-      state.operation = "";
+      const evaluatedExp = evaluate(state) || state.operation;
+      state.memory = "";
+      state.operation = evaluatedExp;
+      showCurrentEntry.textContent = state.operation;
+      showStoredMemory.textContent = state.memory;
       break;
 
     case "clear":
@@ -55,19 +57,24 @@ function handleEntry(entry) {
       break;
 
     default:
-      if (state.memory && /[^0-9]/g.test(entry) && !state.operation) {
-        state.operation = state.memory;
+      if (!state.memory && /[^0-9]/g.test(entry) && state.operation) {
+        state.memory = state.operation;
       }
-      state.operation += entry;
-      const changeMultiplicationSignDisplay = state.operation.replace(
-        /[*]/g,
-        "x"
+
+      state.memory += entry;
+
+      const formatOperators = state.memory.replace(/[^0-9]/g, operator =>
+        operator === "*" ? ` x ` : ` ${operator} `
       );
-      showCurrentEntry.textContent = changeMultiplicationSignDisplay;
+
+      if (/[^0-9]/g.test(formatOperators)) {  
+        showStoredMemory.textContent = formatOperators;
+      } else {
+        showCurrentEntry.textContent = formatOperators;
+      }
       break;
   }
 }
 
 window.addEventListener("keypress", handleNumPadEntry);
-
 buttons.addEventListener("click", handleClickedButtonEntry);

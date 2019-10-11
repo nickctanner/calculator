@@ -2,29 +2,49 @@
 ::before,
 ::after {
   box-sizing: border-box;
-  /* border: 0.5px solid red; */
-  font-size: 1.3rem;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  transition: background 0.3s ease;
+}
+
+body {
+  background: lightcyan;
 }
 
 .button-container {
   display: grid;
   justify-content: center;
-  min-height: 100vh;
+  box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
   align-content: center;
-  grid-template-columns: repeat(4, 125px);
+  grid-template-columns: repeat(4, 120px);
   column-gap: 5px;
   row-gap: 5px;
-  grid-template-rows: repeat(9, 75px);
+  grid-template-rows: repeat(8, 75px);
+  height: 100%; 
+  min-height: 100vh;
 }
 
 button {
   outline: none;
+  font-size: 1.8rem;
+  border: none;
 }
 
-button:hover {
-  background: rgb(61, 61, 61);
+button:hover  {
+   box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
+}
+
+button[data-num]:hover {
+  background: rgb(23, 26, 201);
+  color: white;
+}
+
+button.operation:hover, button.clear:hover, button.all-clear:hover {
+  background: darkgray;
+  color: white;
+}
+
+button.enter:hover {
+  background: rgb(194, 3, 3);
   color: white;
 }
 
@@ -33,20 +53,22 @@ button:hover {
   background: black;
   justify-content: space-between;
   text-align: right;
+  min-height: 155px;
   grid-column: span 4;
   grid-row: span 2;
+  padding: 5px;
 }
 
 .saved {
   color: rgb(56, 255, 56);
+  font-size: 1.5rem;
   margin: 10px;
   grid-column: span 4;
   opacity: 0.9;
 }
 
 .current {
-  font-size: 1.9rem;
-  align-self: center;
+  font-size: 2.5rem;
   color: white;
   margin: 10px;
   grid-column: span 4;
