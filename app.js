@@ -10,11 +10,11 @@ const showStoredMemory = document.querySelector(".saved");
 
 const state = {
   operation: "",
-  memory: ""
+  memory: "",
 };
 
 const evaluate = ({ memory }) => {
-  const evaluation = eval(memory);546565
+  const evaluation = eval(memory);
   return evaluation;
 };
 
@@ -37,6 +37,7 @@ const handleClickedButtonEntry = e => {
 function handleEntry(entry) {
   switch (entry) {
     case "enter":
+      state.memory += state.operation;
       const evaluatedExp = evaluate(state) || state.operation;
       state.memory = "";
       state.operation = evaluatedExp;
@@ -56,22 +57,24 @@ function handleEntry(entry) {
       showStoredMemory.textContent = state.memory;
       break;
 
-    default:
-      if (!state.memory && /[^0-9]/g.test(entry) && state.operation) {
-        state.memory = state.operation;
-      }
-
-      state.memory += entry;
+    case "+":
+    case "-":
+    case "*":
+    case "/":  
+      handleEntry("enter");
+      state.memory = state.operation + entry;
+      // TODO: conditionally set state.operation
+      state.operation = "";
 
       const formatOperators = state.memory.replace(/[^0-9]/g, operator =>
         operator === "*" ? ` x ` : ` ${operator} `
       );
+      showStoredMemory.textContent = formatOperators;
+      break;
 
-      if (/[^0-9]/g.test(formatOperators)) {  
-        showStoredMemory.textContent = formatOperators;
-      } else {
-        showCurrentEntry.textContent = formatOperators;
-      }
+    default:
+      state.operation += entry;
+      showCurrentEntry.textContent = state.operation;
       break;
   }
 }

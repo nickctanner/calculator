@@ -3,7 +3,7 @@
 ::after {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
-  transition: background 0.3s ease;
+  transition: background 0.4s ease;
 }
 
 body {
