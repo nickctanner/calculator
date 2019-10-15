@@ -19,18 +19,19 @@ body {
   column-gap: 5px;
   row-gap: 5px;
   grid-template-rows: repeat(8, 75px);
-  height: 100%; 
+  height: 100%;
   min-height: 100vh;
 }
 
 button {
+  background: lightgray;
   outline: none;
   font-size: 1.8rem;
   border: none;
 }
 
-button:hover  {
-   box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
+button:hover {
+  box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
 }
 
 button[data-num]:hover {
@@ -38,7 +39,9 @@ button[data-num]:hover {
   color: white;
 }
 
-button.operation:hover, button.clear:hover, button.all-clear:hover {
+button.operation:hover,
+button.clear:hover,
+button.all-clear:hover {
   background: darkgray;
   color: white;
 }
@@ -69,8 +72,9 @@ button.enter:hover {
 
 .current {
   font-size: 2.5rem;
+  align-self: center;
   color: white;
-  margin: 10px;
+  margin: 15px;
   grid-column: span 4;
 }
 
