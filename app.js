@@ -41,7 +41,7 @@ function handleEntry(entry) {
     case 'enter':
       if (state.operation) {
         state.memory += state.operation;
-        const evaluatedExp = evaluate(state) || state.operation;
+        const evaluatedExp = evaluate(state);
         state.memory = '';
         state.operation = evaluatedExp;
         showCurrentEntry.textContent = state.operation;
