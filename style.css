@@ -60,6 +60,8 @@ button.enter:hover {
   grid-column: span 4;
   grid-row: span 2;
   padding: 5px;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .saved {
@@ -71,7 +73,7 @@ button.enter:hover {
 }
 
 .current {
-  font-size: 2.5rem;
+  font-size: 3.1rem;
   align-self: center;
   color: white;
   margin: 15px;
