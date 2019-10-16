@@ -22,31 +22,41 @@ const evaluate = ({ memory }) => {
 // TODO: fix 'ENTER' bug from keyboard entry
 
 const handleNumPadEntry = e => {
-  if (e.keyCode === 13 || (e.keyCode < 60 && e.keyCode > 40)) {
-    const keyValue = String.fromCharCode(e.keyCode);
-
-    return handleEntry(keyValue);
+  if (/[0-9-./+*]|Enter/g.test(e.key)) {
+    const key = e.key === 'Enter' ? 'enter' : e.key;
+    return combineEntryMethods(key);
   }
 };
 
 const handleClickedButtonEntry = e => {
   const button = e.target.value;
-  if (!button) return;
-
-  return handleEntry(button);
+  if (button) return combineEntryMethods(button);
 };
 
+const combineEntryMethods = async method => await handleEntry(method);
+
+const formatOperators = ({ memory }) =>
+  memory.replace(/[^0-9.]/g, operator =>
+    operator === '*' ? ` x ` : ` ${operator} `
+  );
+
 function handleEntry(entry) {
+  console.log(entry);
   switch (entry) {
     case 'enter':
-      if (state.operation) {
+    case 'opEnter':
+      if (state.operation && !state.evaluated) {
         state.memory += state.operation;
-        const evaluatedExp = evaluate(state) || state.operation;
-        state.memory = '';
-        state.operation = evaluatedExp;
+        const evaluatedExpression = evaluate(state) || state.operation;
+        state.operation = evaluatedExpression;
         showCurrentEntry.textContent = state.operation;
-        showStoredMemory.textContent = state.memory;
-        state.evaluated = true;
+
+        if (entry === 'enter') {
+          state.memory = '';
+          state.evaluated = true;
+        }
+
+        showStoredMemory.textContent = formatOperators(state);
       }
       break;
 
@@ -66,21 +76,21 @@ function handleEntry(entry) {
     case '-':
     case '*':
     case '/':
-      if (state.operation) {
-        handleEntry('enter');
+      handleEntry('opEnter');
+      showCurrentEntry.textContent = state.operation;
+      if (state.evaluated) {
         state.memory = state.operation + entry;
-        state.evaluated = false;
-        state.operation = '';
-        showCurrentEntry.textContent = '';
-      } else {
-        let lastChar = state.memory.slice(-1);
-        state.memory = state.memory.replace(lastChar, entry);
       }
 
-      const formatOperators = state.memory.replace(/[^0-9.]/g, operator =>
-        operator === '*' ? ` x ` : ` ${operator} `
-      );
-      showStoredMemory.textContent = formatOperators;
+      if (/[+-/*]/g.test(state.memory.slice(-1))) {
+        state.memory = state.memory.slice(0, -1);
+      }
+
+      state.memory += entry;
+      state.evaluated = false;
+
+      state.operation = '';
+      showStoredMemory.textContent = formatOperators(state);
       break;
 
     default:
@@ -88,8 +98,8 @@ function handleEntry(entry) {
         state.operation = '';
         state.evaluated = false;
       }
-      state.operation += entry;
 
+      state.operation += entry;
       showCurrentEntry.textContent = state.operation;
       break;
   }
