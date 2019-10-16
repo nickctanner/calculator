@@ -19,12 +19,9 @@ const evaluate = ({ memory }) => {
   return evaluation;
 };
 
-// TODO: fix 'ENTER' bug from keyboard entry
-
 const handleNumPadEntry = e => {
   if (e.keyCode === 13 || (e.keyCode < 60 && e.keyCode > 40)) {
-    const keyValue = String.fromCharCode(e.keyCode);
-
+    const keyValue = e.keyCode === 13 ? 'enter' : String.fromCharCode(e.keyCode);
     return handleEntry(keyValue);
   }
 };
@@ -37,6 +34,7 @@ const handleClickedButtonEntry = e => {
 };
 
 function handleEntry(entry) {
+  console.log(entry);
   switch (entry) {
     case 'enter':
       if (state.operation) {
