@@ -1,38 +1,45 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow&display=swap');
+
 *,
 ::before,
 ::after {
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Barlow', sans-serif;
   transition: background 0.4s ease;
 }
 
 body {
-  background: lightcyan;
+  background: rgb(183, 255, 0);
 }
 
 .button-container {
   display: grid;
+  position: absolute;
   justify-content: center;
-  box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
+  background: rgb(205, 226, 221);
+  box-shadow: 1px 1px 10px 0px rgb(131, 146, 156);
   align-content: center;
-  grid-template-columns: repeat(4, 120px);
+  grid-template-columns: repeat(4, 110px);
   column-gap: 5px;
   row-gap: 5px;
-  grid-template-rows: repeat(8, 75px);
-  height: 100%;
-  min-height: 100vh;
+  grid-template-rows: repeat(8, 65px);
+  left: 50%;
+  top: 50%;
+  width: 465px;
+  height: 565px;
+  transform: translate(-50%, -50%);
 }
 
 button {
   background: lightgray;
   outline: none;
-  font-size: 1.8rem;
+  font-size: 2rem;
   border: none;
 }
 
-button:hover {
-  box-shadow: 1px 1px 10px 3px rgb(204, 204, 204);
-}
+/* button:hover {
+  box-shadow: 1px 1px 10px 3px rgb(200, 200, 200);
+} */
 
 button[data-num]:hover {
   background: rgb(23, 26, 201);
@@ -56,7 +63,6 @@ button.enter:hover {
   background: black;
   justify-content: space-between;
   text-align: right;
-  min-height: 155px;
   grid-column: span 4;
   grid-row: span 2;
   padding: 5px;
@@ -66,17 +72,19 @@ button.enter:hover {
 
 .saved {
   color: rgb(56, 255, 56);
-  font-size: 1.5rem;
-  margin: 10px;
+  font-size: 1.8rem;
+  min-height: 35px;
+  margin: 5px 10px 0;
   grid-column: span 4;
   opacity: 0.9;
+  overflow: auto;
 }
 
 .current {
   font-size: 3.1rem;
   align-self: center;
   color: white;
-  margin: 15px;
+  margin: 5px 10px;
   grid-column: span 4;
 }
 

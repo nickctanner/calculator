@@ -1,17 +1,17 @@
-const saved = document.querySelector(".saved");
-const current = document.querySelector(".current");
-const allClear = document.querySelector(".all-clear");
-const clear = document.querySelector(".clear");
-const enter = document.querySelector(".enter");
-const enterBtn = document.querySelector(".enter");
-const buttons = document.querySelector(".button-container");
-const showCurrentEntry = document.querySelector(".current");
-const showStoredMemory = document.querySelector(".saved");
+const saved = document.querySelector('.saved');
+const current = document.querySelector('.current');
+const allClear = document.querySelector('.all-clear');
+const clear = document.querySelector('.clear');
+const enter = document.querySelector('.enter');
+const enterBtn = document.querySelector('.enter');
+const buttons = document.querySelector('.button-container');
+const showCurrentEntry = document.querySelector('.current');
+const showStoredMemory = document.querySelector('.saved');
 
 const state = {
-  operation: "",
-  memory: "",
-  evaluated: false
+  operation: '',
+  memory: '',
+  evaluated: false,
 };
 
 const evaluate = ({ memory }) => {
@@ -19,74 +19,80 @@ const evaluate = ({ memory }) => {
   return evaluation;
 };
 
-const combineEntryMethods = method => handleEntry(method);
+const combineEntryMethods = method => processEntry(method);
 
 const handleNumberPadEntry = e => {
-  if (/[0-9-./+*]|Enter/g.test(e.key)) {
-    const key = e.key === "Enter" ? "enter" : e.key;
-    return combineEntryMethods(key);
-  }
+  e.preventDefault();
+  if (/[^0-9-./+*(Enter)(Delete)(Backspace)]/g.test(e.key)) return;
+  const key = e.key;
+  combineEntryMethods(key);
 };
 
 const handleClickedButtonEntry = e => {
   const button = e.target.value;
-  if (button) return combineEntryMethods(button);
+  if (button) combineEntryMethods(button);
 };
 
 const formatDisplayedOperatorsInMemory = ({ memory }) => {
   const formattedMemory = memory.replace(/[^0-9.]/g, operator =>
-    operator === "*" ? ` x ` : ` ${operator} `
+    operator === '*' ? ` x ` : ` ${operator} `
   );
+
   return formattedMemory;
 };
 
 const formatCurrentDisplayedNumber = ({ operation }) => {
-  const formattedNumber = operation
-    .toString()
-    .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  const formattedNumber = operation.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
   return formattedNumber;
 };
 
-function handleEntry(entry) {
-  // console.log(entry);
+function processEntry(entry) {
   switch (entry) {
-    case "enter":
-    case "opEnter":
+    case 'Enter':
+    case 'opEnter':
       if (state.operation && !state.evaluated) {
         state.memory += state.operation;
         const evaluatedExpression = evaluate(state) || state.operation;
-        state.operation = evaluatedExpression;
+        state.operation = evaluatedExpression.toString();
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
 
-        if (entry === "enter") {
-          state.memory = "";
+        if (entry === 'Enter') {
+          state.memory = '';
           state.evaluated = true;
         }
+        let memory = formatDisplayedOperatorsInMemory(state);
+        if (memory.length > 40) {
+          showStoredMemory.style.fontSize = `1.3rem`;
+        } else {
+          showStoredMemory.style.fontSize = `1.8rem`;
+        }
 
-        showStoredMemory.textContent = formatDisplayedOperatorsInMemory(state);
+        showStoredMemory.textContent = memory;
       }
       break;
 
-    case "clear":
-      state.operation = "";
+    case 'Backspace':
+    case 'Clear':
+      state.operation = '';
       showCurrentEntry.textContent = state.operation;
       break;
 
-    case "allClear":
-      state.memory = "";
-      state.operation = "";
+    case 'Delete':
+    case 'Clearall':
+      state.memory = '';
+      state.operation = '';
       showCurrentEntry.textContent = state.operation;
       showStoredMemory.textContent = state.memory;
       break;
 
-    case "+":
-    case "-":
-    case "*":
-    case "/":
-      handleEntry("opEnter");
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+      processEntry('opEnter');
 
       showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
-      console.log(state.operation);
+
       if (state.evaluated) {
         state.memory = state.operation + entry;
       }
@@ -97,13 +103,13 @@ function handleEntry(entry) {
 
       state.memory += entry;
       state.evaluated = false;
-      state.operation = "";
+      state.operation = '';
       showStoredMemory.textContent = formatDisplayedOperatorsInMemory(state);
       break;
 
     default:
       if (state.evaluated) {
-        state.operation = "";
+        state.operation = '';
         state.evaluated = false;
       }
 
@@ -113,5 +119,5 @@ function handleEntry(entry) {
   }
 }
 
-window.addEventListener("keypress", handleNumberPadEntry);
-buttons.addEventListener("click", handleClickedButtonEntry);
+window.addEventListener('keydown', handleNumberPadEntry);
+buttons.addEventListener('click', handleClickedButtonEntry);
