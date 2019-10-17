@@ -23,14 +23,27 @@ const combineEntryMethods = method => processEntry(method);
 
 const handleNumberPadEntry = e => {
   e.preventDefault();
+  clickedButtonDown(e.target);
   if (/[^0-9-./+*(Enter)(Delete)(Backspace)]/g.test(e.key)) return;
   const key = e.key;
   combineEntryMethods(key);
 };
 
+const clickedButtonDown = button => {
+ button.classList.add('clicked-down');
+}
+
+const clickedButtonUp = e => {
+  const button = e.target;
+  button.classList.remove('clicked-down');
+}
+
 const handleClickedButtonEntry = e => {
   const button = e.target.value;
-  if (button) combineEntryMethods(button);
+  if (button) {
+    clickedButtonDown(e.target);
+    combineEntryMethods(button);
+  }
 };
 
 const formatDisplayedOperatorsInMemory = ({ memory }) => {
@@ -52,7 +65,7 @@ function processEntry(entry) {
     case 'opEnter':
       if (state.operation && !state.evaluated) {
         state.memory += state.operation;
-        const evaluatedExpression = evaluate(state) || state.operation;
+        const evaluatedExpression = evaluate(state) || 0;
         state.operation = evaluatedExpression.toString();
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
 
@@ -120,4 +133,8 @@ function processEntry(entry) {
 }
 
 window.addEventListener('keydown', handleNumberPadEntry);
-buttons.addEventListener('click', handleClickedButtonEntry);
+window.addEventListener('keydown', clickedButtonUp);
+
+buttons.addEventListener('mousedown', handleClickedButtonEntry);
+buttons.addEventListener('mouseup', clickedButtonUp);
+

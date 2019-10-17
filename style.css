@@ -5,19 +5,19 @@
 ::after {
   box-sizing: border-box;
   font-family: 'Barlow', sans-serif;
-  transition: background 0.4s ease;
+  transition: all 0.3s ease;
 }
 
 body {
-  background: rgb(183, 255, 0);
+  background: rgba(0, 217, 255, 0.521);
 }
 
 .button-container {
   display: grid;
   position: absolute;
   justify-content: center;
-  background: rgb(205, 226, 221);
-  box-shadow: 1px 1px 10px 0px rgb(131, 146, 156);
+  background: rgb(255, 254, 254);
+  box-shadow: 3px 3px 20px rgb(131, 146, 156);
   align-content: center;
   grid-template-columns: repeat(4, 110px);
   column-gap: 5px;
@@ -31,15 +31,18 @@ body {
 }
 
 button {
-  background: lightgray;
+  background: rgb(255, 255, 255);
+  box-shadow: 1px 1px 4px  rgb(173, 173, 173);
   outline: none;
+  color: rgb(80, 80, 80);
   font-size: 2rem;
   border: none;
 }
 
-/* button:hover {
-  box-shadow: 1px 1px 10px 3px rgb(200, 200, 200);
-} */
+button[data-num] {
+  color: rgb(14, 14, 14);
+  font-weight: 600;
+}
 
 button[data-num]:hover {
   background: rgb(23, 26, 201);
@@ -58,20 +61,24 @@ button.enter:hover {
   color: white;
 }
 
+.clicked-down {
+  background: white;
+  box-shadow: none;
+  font-size: 1.1rem;
+}
+
 .op {
   display: grid;
-  background: black;
+  background: rgb(0, 0, 0);
   justify-content: space-between;
   text-align: right;
   grid-column: span 4;
   grid-row: span 2;
   padding: 5px;
-  overflow-wrap: break-word;
-  word-break: break-all;
 }
 
 .saved {
-  color: rgb(56, 255, 56);
+  color: rgb(0, 255, 0);
   font-size: 1.8rem;
   min-height: 35px;
   margin: 5px 10px 0;
@@ -81,11 +88,17 @@ button.enter:hover {
 }
 
 .current {
+  background: rgb(226, 226, 226);
+  color: rgb(14, 14, 14);
+  box-shadow: 0 1px 5px inset rgb(88, 88, 88);
+  font-weight: 600;
   font-size: 3.1rem;
+  min-height: 70px;
   align-self: center;
-  color: white;
-  margin: 5px 10px;
+  margin: 5px;
+  padding: 0 10px;
   grid-column: span 4;
+  overflow-x: auto;
 }
 
 .all-clear,
