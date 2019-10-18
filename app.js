@@ -103,6 +103,7 @@ function processEntry(entry) {
       case 'Clearall':
         state.memory = '';
         state.operation = '';
+        state.prevAnswer = '';
         showCurrentEntry.textContent = state.operation;
         showStoredMemory.textContent = state.memory;
         break;

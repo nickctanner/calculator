@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Barlow&display=swap');
 
+:root {
+  --uSizing: 5px;
+}
+
 *,
 ::before,
 ::after {
@@ -16,6 +20,7 @@ body {
 
 .op-container {
   display: grid;
+  border-radius: var(--uSizing);
   position: absolute;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
@@ -26,22 +31,22 @@ body {
   -ms-flex-line-pack: center;
   align-content: center;
   grid-template-columns: repeat(4, 110px);
-  -webkit-column-gap: 5px;
-  column-gap: 5px;
-  row-gap: 5px;
+  -webkit-column-gap: 10px;
+  column-gap: 10px;
+  row-gap: 10px;
   grid-template-rows: repeat(8, 65px);
   left: 50%;
   top: 50%;
-  width: 465px;
-  height: 565px;
+  width: 490px;
+  height: 610px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 button {
-  background: rgb(255, 255, 255);
-  -webkit-box-shadow: 1px 1px 4px rgb(173, 173, 173);
-  box-shadow: 1px 1px 4px rgb(173, 173, 173);
+  -webkit-box-shadow: 1px 3px var(--uSizing) rgb(173, 173, 173);
+  box-shadow: 1px 3px var(--uSizing) rgb(173, 173, 173);
+  border-radius: var(--uSizing);
   outline: none;
   color: rgb(80, 80, 80);
   font-size: 2rem;
@@ -60,14 +65,19 @@ button[data-num]:hover {
 
 button.operation:hover,
 button.clear:hover,
+button.back:hover,
 button.all-clear:hover {
-  background: darkgray;
+  background: rgb(169, 169, 169);
   color: white;
 }
 
-button.enter:hover {
+button.enter {
   background: rgb(194, 3, 3);
-  color: white;
+  color: rgb(255, 255, 255);
+}
+
+button.enter:hover {
+  background: rgb(221, 14, 14);
 }
 
 .clicked-down {
@@ -80,36 +90,35 @@ button.enter:hover {
 .op {
   display: grid;
   background: rgb(0, 0, 0);
+  border-radius: var(--uSizing);
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
   justify-content: space-between;
   text-align: right;
   grid-column: span 4;
   grid-row: span 2;
-  padding: 5px;
+  padding: var(--uSizing);
 }
 
 .saved {
   color: rgb(0, 255, 0);
   font-size: 1.8rem;
   min-height: 35px;
-  margin: 5px 10px 0;
+  margin: var(--uSizing) 10px 0;
   grid-column: span 4;
   opacity: 0.9;
   overflow: auto;
 }
 
 .current {
-  background: rgb(219, 219, 219);
+  background: rgb(239, 255, 234);
   color: rgb(14, 14, 14);
-  -webkit-box-shadow: 0 1px 5px inset rgb(88, 88, 88);
-  box-shadow: 0 1px 5px inset rgb(88, 88, 88);
-  font-weight: 600;
+  border-radius: var(--uSizing);
   font-size: 3.1rem;
   min-height: 70px;
   align-self: center;
-  margin: 5px;
   padding: 0 10px;
+  margin: 0 var(--uSizing);
   grid-column: span 4;
   overflow-x: auto;
 }
