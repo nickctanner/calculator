@@ -3,8 +3,10 @@
 *,
 ::before,
 ::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: 'Barlow', sans-serif;
+  -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
 
@@ -12,14 +14,19 @@ body {
   background: rgba(0, 217, 255, 0.521);
 }
 
-.button-container {
+.op-container {
   display: grid;
   position: absolute;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   background: rgb(255, 254, 254);
+  -webkit-box-shadow: 3px 3px 20px rgb(131, 146, 156);
   box-shadow: 3px 3px 20px rgb(131, 146, 156);
+  -ms-flex-line-pack: center;
   align-content: center;
   grid-template-columns: repeat(4, 110px);
+  -webkit-column-gap: 5px;
   column-gap: 5px;
   row-gap: 5px;
   grid-template-rows: repeat(8, 65px);
@@ -27,12 +34,14 @@ body {
   top: 50%;
   width: 465px;
   height: 565px;
+  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
 
 button {
   background: rgb(255, 255, 255);
-  box-shadow: 1px 1px 4px  rgb(173, 173, 173);
+  -webkit-box-shadow: 1px 1px 4px rgb(173, 173, 173);
+  box-shadow: 1px 1px 4px rgb(173, 173, 173);
   outline: none;
   color: rgb(80, 80, 80);
   font-size: 2rem;
@@ -63,6 +72,7 @@ button.enter:hover {
 
 .clicked-down {
   background: white;
+  -webkit-box-shadow: none;
   box-shadow: none;
   font-size: 1.1rem;
 }
@@ -70,6 +80,8 @@ button.enter:hover {
 .op {
   display: grid;
   background: rgb(0, 0, 0);
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
   justify-content: space-between;
   text-align: right;
   grid-column: span 4;
@@ -88,8 +100,9 @@ button.enter:hover {
 }
 
 .current {
-  background: rgb(226, 226, 226);
+  background: rgb(219, 219, 219);
   color: rgb(14, 14, 14);
+  -webkit-box-shadow: 0 1px 5px inset rgb(88, 88, 88);
   box-shadow: 0 1px 5px inset rgb(88, 88, 88);
   font-weight: 600;
   font-size: 3.1rem;
@@ -101,10 +114,14 @@ button.enter:hover {
   overflow-x: auto;
 }
 
-.all-clear,
 .clear,
 .zero {
   grid-column: span 2;
+}
+
+.all-clear,
+.back {
+  grid-column: span 1;
 }
 
 .enter {
