@@ -11,7 +11,7 @@ const showStoredMemory = document.querySelector('.saved');
 const state = {
   operation: '',
   memory: '',
-  evaluated: false,
+  hasBeenEvaluated: false,
   prevAnswer: '',
 };
 
@@ -19,29 +19,29 @@ const combineEntryMethods = method => processEntry(method);
 
 const handleNumberPadEntry = e => {
   e.preventDefault();
-  clickedButtonDown(e.target);
+  addClickedButtonClass(e.target);
 
-  if (/[0-9-.\/+*]|Enter|Backspace|Delete/g.test(e.key)) {
+  if (/[0-9-.\/+*]|Enter|Backspace|Delete|Percent/g.test(e.key)) {
     const key = e.key;
     combineEntryMethods(key);
   }
 };
 
-const clickedButtonDown = button => {
-  button.classList.add('clicked-down');
-};
-
-const clickedButtonUp = e => {
-  const button = e.target;
-  button.classList.remove('clicked-down');
-};
-
 const handleClickedButtonEntry = e => {
   const button = e.target.value;
   if (button) {
-    clickedButtonDown(e.target);
+    addClickedButtonClass(e.target);
     combineEntryMethods(button);
   }
+};
+
+const addClickedButtonClass = button => {
+  button.classList.add('clicked');
+};
+
+const removeClickedButtonClass = e => {
+  const button = e.target;
+  button.classList.remove('clicked');
 };
 
 const formatDisplayedOperatorsInMemory = ({ memory }) => {
@@ -56,7 +56,10 @@ const formatCurrentDisplayedNumber = ({ operation }) => {
   return formattedNumber;
 };
 
-const evaluate = ({ memory }) => {
+const convertPercent = value =>
+  ((+value / 100) * +state.memory.slice(0, state.memory.length - 1)).toString();
+
+const evaluateExpression = ({ memory }) => {
   const evaluation = eval(memory);
   return evaluation;
 };
@@ -66,16 +69,16 @@ function processEntry(entry) {
     switch (entry) {
       case 'Enter':
       case 'opEnter':
-        if (state.operation && !state.evaluated) {
+        if (state.operation && !state.hasBeenEvaluated) {
           state.memory += state.operation;
-          const evaluatedExpression = evaluate(state) || 0;
-          state.operation = evaluatedExpression.toString();
+          const evaluatedResult = evaluateExpression(state) || 0;
+          state.operation = evaluatedResult.toString();
           state.prevAnswer = formatCurrentDisplayedNumber(state);
           showCurrentEntry.textContent = state.prevAnswer;
 
           if (entry === 'Enter') {
             state.memory = '';
-            state.evaluated = true;
+            state.hasBeenEvaluated = true;
           }
 
           let memory = formatDisplayedOperatorsInMemory(state);
@@ -108,14 +111,23 @@ function processEntry(entry) {
         showStoredMemory.textContent = state.memory;
         break;
 
+      case '%':
+        if (!state.memory) return;
+
+        state.operation = convertPercent(state.operation);
+        showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
+        break;
+
       case '+':
       case '-':
       case '*':
       case '/':
+        if (!state.memory && !state.operation && /[*\/]/g.test(entry)) return;
+
         processEntry('opEnter');
         showCurrentEntry.textContent = state.prevAnswer;
 
-        if (state.evaluated) {
+        if (state.hasBeenEvaluated) {
           state.memory = state.operation + entry;
         }
 
@@ -124,15 +136,15 @@ function processEntry(entry) {
         }
 
         state.memory += entry;
-        state.evaluated = false;
+        state.hasBeenEvaluated = false;
         state.operation = '';
         showStoredMemory.textContent = formatDisplayedOperatorsInMemory(state);
         break;
 
       default:
-        if (state.evaluated) {
+        if (state.hasBeenEvaluated) {
           state.operation = '';
-          state.evaluated = false;
+          state.hasBeenEvaluated = false;
         }
 
         state.operation += entry;
@@ -143,7 +155,7 @@ function processEntry(entry) {
 }
 
 window.addEventListener('keydown', handleNumberPadEntry);
-window.addEventListener('keydown', clickedButtonUp);
+window.addEventListener('keydown', removeClickedButtonClass);
 
 buttons.addEventListener('mousedown', handleClickedButtonEntry);
-buttons.addEventListener('mouseup', clickedButtonUp);
+buttons.addEventListener('mouseup', removeClickedButtonClass);

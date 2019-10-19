@@ -53,6 +53,13 @@ button {
   border: none;
 }
 
+button.clear,
+button.all-clear,
+button.back {
+  background: rgb(151, 151, 151);
+  color: white;
+}
+
 button[data-num] {
   color: rgb(14, 14, 14);
   font-weight: 600;
@@ -63,11 +70,11 @@ button[data-num]:hover {
   color: white;
 }
 
-button.operation:hover,
 button.clear:hover,
+button.all-clear:hover,
 button.back:hover,
-button.all-clear:hover {
-  background: rgb(169, 169, 169);
+button.operation:hover {
+  background: rgb(63, 63, 63);
   color: white;
 }
 
@@ -77,10 +84,10 @@ button.enter {
 }
 
 button.enter:hover {
-  background: rgb(221, 14, 14);
+  background: rgb(133, 0, 0);
 }
 
-.clicked-down {
+.clicked {
   background: white;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -123,16 +130,38 @@ button.enter:hover {
   overflow-x: auto;
 }
 
-.clear,
 .zero {
   grid-column: span 2;
 }
 
 .all-clear,
+.clear,
 .back {
   grid-column: span 1;
 }
 
 .enter {
   grid-column: span 4;
+}
+
+@media screen and (max-width: 480px) {
+  .op-container {
+    width: 100vw;
+    height: 100vh;
+    grid-template-columns: repeat(4, 1fr);
+    -webkit-column-gap: 0;
+    column-gap: 0;
+    row-gap: 0;
+    grid-template-rows: repeat(8, 1fr);
+  }
+
+  .op,
+  .current {
+    border-radius: 0;
+  }
+
+  button {
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
