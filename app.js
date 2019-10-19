@@ -19,9 +19,8 @@ const combineEntryMethods = method => processEntry(method);
 
 const handleNumberPadEntry = e => {
   e.preventDefault();
-  addClickedButtonClass(e.target);
 
-  if (/[0-9-.\/+*]|Enter|Backspace|Delete|Percent/g.test(e.key)) {
+  if (/[0-9-.\/+*%]|Enter|Backspace|Delete|Percent/g.test(e.key)) {
     const key = e.key;
     combineEntryMethods(key);
   }
