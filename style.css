@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Barlow&display=swap');
 
 :root {
-  --uSizing: 5px;
+  --uSizing: 4px;
 }
 
 *,
@@ -58,11 +58,12 @@ button.all-clear,
 button.back {
   background: rgb(151, 151, 151);
   color: white;
+  font-size: 1.5rem;
 }
 
 button[data-num] {
-  color: rgb(14, 14, 14);
-  font-weight: 600;
+  color: rgb(24, 24, 24);
+  font-weight: 700;
 }
 
 button[data-num]:hover {
@@ -100,7 +101,7 @@ button.enter:hover {
   border-radius: var(--uSizing);
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
-  justify-content: space-between;
+  align-items: center;
   text-align: right;
   grid-column: span 4;
   grid-row: span 2;
@@ -108,22 +109,23 @@ button.enter:hover {
 }
 
 .saved {
-  color: rgb(0, 255, 0);
+  color: rgb(208, 255, 0);
   font-size: 1.8rem;
   min-height: 35px;
-  margin: var(--uSizing) 10px 0;
+  margin-right: var(--uSizing);
   grid-column: span 4;
   opacity: 0.9;
   overflow: auto;
 }
 
 .current {
-  background: rgb(239, 255, 234);
-  color: rgb(14, 14, 14);
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   border-radius: var(--uSizing);
-  font-size: 3.1rem;
+  font-size: 3.3rem;
+  font-weight: 800;
+  letter-spacing: 2px;
   min-height: 70px;
-  align-self: center;
   padding: 0 10px;
   margin: 0 var(--uSizing);
   grid-column: span 4;

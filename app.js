@@ -43,15 +43,31 @@ const removeClickedButtonClass = e => {
   button.classList.remove('clicked');
 };
 
-const formatDisplayedOperatorsInMemory = ({ memory }) => {
+const formatDisplayedMemory = ({ memory }) => {
   const formattedMemory = memory.replace(/[^0-9.]/g, operator =>
     operator === '*' ? ` x ` : ` ${operator} `
   );
+  const maxCharacters = 40;
+
+  if (formattedMemory.length > maxCharacters) {
+    showStoredMemory.style.fontSize = `1.3rem`;
+  } else {
+    showStoredMemory.style.fontSize = `1.8rem`;
+  }
+
   return formattedMemory;
 };
 
 const formatCurrentDisplayedNumber = ({ operation }) => {
   const formattedNumber = operation.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+  const maxCharacters = 16;
+
+  if (formattedNumber.length > maxCharacters) {
+    showCurrentEntry.style.fontSize = `2.7rem`;
+  } else {
+    showCurrentEntry.style.fontSize = `3.3rem`;
+  }
+
   return formattedNumber;
 };
 
@@ -80,14 +96,7 @@ function processEntry(entry) {
             state.hasBeenEvaluated = true;
           }
 
-          let memory = formatDisplayedOperatorsInMemory(state);
-          if (memory.length > 40) {
-            showStoredMemory.style.fontSize = `1.3rem`;
-          } else {
-            showStoredMemory.style.fontSize = `1.8rem`;
-          }
-
-          showStoredMemory.textContent = memory;
+          showStoredMemory.textContent = state.memory;
         }
         break;
 
@@ -137,7 +146,7 @@ function processEntry(entry) {
         state.memory += entry;
         state.hasBeenEvaluated = false;
         state.operation = '';
-        showStoredMemory.textContent = formatDisplayedOperatorsInMemory(state);
+        showStoredMemory.textContent = formatDisplayedMemory(state);
         break;
 
       default:
