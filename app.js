@@ -1,18 +1,19 @@
-const saved = document.querySelector('.saved');
-const current = document.querySelector('.current');
-const allClear = document.querySelector('.all-clear');
-const clear = document.querySelector('.clear');
-const enter = document.querySelector('.enter');
-const enterBtn = document.querySelector('.enter');
-const buttons = document.querySelector('.op-container');
-const showCurrentEntry = document.querySelector('.current');
-const showStoredMemory = document.querySelector('.saved');
+const saved = document.querySelector(".saved");
+const current = document.querySelector(".current");
+const allClear = document.querySelector(".all-clear");
+const clear = document.querySelector(".clear");
+const enter = document.querySelector(".enter");
+const enterBtn = document.querySelector(".enter");
+const buttons = document.querySelector(".op-container");
+const showCurrentEntry = document.querySelector(".current");
+const showStoredMemory = document.querySelector(".saved");
 
 const state = {
-  operation: '',
-  memory: '',
-  hasBeenEvaluated: false,
-  prevAnswer: '',
+  currOperation: "",
+  operator: "",
+  memory: "",
+  prevAnswer: "",
+  hasBeenEvaluated: false
 };
 
 const combineEntryMethods = method => processEntry(method);
@@ -35,17 +36,17 @@ const handleClickedButtonEntry = e => {
 };
 
 const addClickedButtonClass = button => {
-  button.classList.add('clicked');
+  button.classList.add("clicked");
 };
 
 const removeClickedButtonClass = e => {
   const button = e.target;
-  button.classList.remove('clicked');
+  button.classList.remove("clicked");
 };
 
 const formatDisplayedMemory = ({ memory }) => {
   const formattedMemory = memory.replace(/[^0-9.]/g, operator =>
-    operator === '*' ? ` x ` : ` ${operator} `
+    operator === "*" ? ` x ` : ` ${operator} `
   );
   const maxCharacters = 40;
 
@@ -58,8 +59,11 @@ const formatDisplayedMemory = ({ memory }) => {
   return formattedMemory;
 };
 
-const formatCurrentDisplayedNumber = ({ operation }) => {
-  const formattedNumber = operation.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+const formatCurrentDisplayedNumber = ({ currOperation }) => {
+  const formattedNumber = currOperation.replace(
+    /(\d)(?=(\d{3})+(?!\d))/g,
+    "$1,"
+  );
   const maxCharacters = 16;
 
   if (formattedNumber.length > maxCharacters) {
@@ -71,99 +75,117 @@ const formatCurrentDisplayedNumber = ({ operation }) => {
   return formattedNumber;
 };
 
-const convertPercent = value =>
-  ((+value / 100) * +state.memory.slice(0, state.memory.length - 1)).toString();
+const convertPercent = ({ currOperation, prevAnswer }) => {
+  const percentage = prevAnswer * (+currOperation / 100);
+  return percentage;
+};
 
-const evaluateExpression = ({ memory }) => {
-  const evaluation = eval(memory);
-  return evaluation;
+const evaluateExpression = ({ prevAnswer, currOperation, operator }) => {
+  prevAnswer = +prevAnswer;
+  currOperation = +currOperation;
+
+  switch (operator) {
+    case "+":
+      return prevAnswer + currOperation;
+    case "-":
+      return prevAnswer - currOperation;
+    case "*":
+      return prevAnswer * currOperation;
+    case "/":
+      return prevAnswer / currOperation;
+  }
 };
 
 function processEntry(entry) {
-  if (typeof entry === 'string') {
+  if (typeof entry === "string") {
     switch (entry) {
-      case 'Enter':
-      case 'opEnter':
-        if (state.operation && !state.hasBeenEvaluated) {
-          state.memory += state.operation;
-          const evaluatedResult = evaluateExpression(state) || 0;
-          state.operation = evaluatedResult.toString();
-          state.prevAnswer = formatCurrentDisplayedNumber(state);
-          showCurrentEntry.textContent = state.prevAnswer;
+      case "Enter":
+      case "opEnter":
+        if (state.currOperation && !state.hasBeenEvaluated) {
+          const evaluatedResult = evaluateExpression(state);
 
-          if (entry === 'Enter') {
-            state.memory = '';
-            state.hasBeenEvaluated = true;
+          state.currOperation = evaluatedResult.toString();
+          state.prevAnswer = state.currOperation;
+
+          showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
+
+          if (entry === "Enter") {
+            state.memory = "";
+            state.prevAnswer = "";
           }
-
+          state.hasBeenEvaluated = true;
           showStoredMemory.textContent = state.memory;
         }
         break;
 
-      case 'Backspace':
-        state.operation = state.operation.slice(0, state.operation.length - 1);
+      case "Backspace":
+        state.currOperation = state.currOperation.slice(
+          0,
+          state.currOperation.length - 1
+        );
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
         break;
 
-      case 'Delete':
-      case 'Clear':
-        state.operation = '';
-        showCurrentEntry.textContent = state.operation;
+      case "Delete":
+      case "Clear":
+        state.currOperation = "";
+        showCurrentEntry.textContent = state.currOperation;
         break;
 
-      case 'Clearall':
-        state.memory = '';
-        state.operation = '';
-        state.prevAnswer = '';
-        showCurrentEntry.textContent = state.operation;
+      case "Clearall":
+        state.memory = "";
+        state.currOperation = "";
+        state.operator = "";
+        state.prevAnswer = "";
+        state.hasBeenEvaluated = false;
+        showCurrentEntry.textContent = state.currOperation;
         showStoredMemory.textContent = state.memory;
         break;
 
-      case '%':
+      case "%":
         if (!state.memory) return;
 
-        state.operation = convertPercent(state.operation);
+        state.currOperation = convertPercent(state).toString();
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
         break;
 
-      case '+':
-      case '-':
-      case '*':
-      case '/':
-        if (!state.memory && !state.operation && /[*\/]/g.test(entry)) return;
+      case "+":
+      case "-":
+      case "*":
+      case "/":
+        if (!state.memory && !state.currOperation && !state.prevAnswer) return;
 
-        processEntry('opEnter');
-        showCurrentEntry.textContent = state.prevAnswer;
+        if (state.currOperation) state.memory += state.currOperation + entry;
 
-        if (state.hasBeenEvaluated) {
-          state.memory = state.operation + entry;
+        const lastCharInMemoryIsOperator = /[+-/*]/g.test(
+          state.memory.slice(-1)
+        );
+
+        if (lastCharInMemoryIsOperator) {
+         state.memory = state.memory.slice(0, state.memory.length - 1) + entry;
         }
 
-        if (/[+-/*]/g.test(state.memory.slice(-1))) {
-          state.memory = state.memory.slice(0, -1);
+        if (state.operator) {
+          processEntry("opEnter");
         }
 
-        state.memory += entry;
-        state.hasBeenEvaluated = false;
-        state.operation = '';
+        state.operator = entry;
+        state.prevAnswer = state.currOperation || state.prevAnswer;
+        state.currOperation = "";
         showStoredMemory.textContent = formatDisplayedMemory(state);
         break;
 
       default:
-        if (state.hasBeenEvaluated) {
-          state.operation = '';
-          state.hasBeenEvaluated = false;
-        }
-
-        state.operation += entry;
+        state.currOperation += entry;
+        state.hasBeenEvaluated = false;
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
         break;
     }
   }
 }
 
-window.addEventListener('keydown', handleNumberPadEntry);
-window.addEventListener('keydown', removeClickedButtonClass);
+window.addEventListener("keydown", handleNumberPadEntry);
+window.addEventListener("keydown", removeClickedButtonClass);
 
-buttons.addEventListener('mousedown', handleClickedButtonEntry);
-buttons.addEventListener('mouseup', removeClickedButtonClass);
+buttons.addEventListener("mousedown", handleClickedButtonEntry);
+buttons.addEventListener("mouseup", removeClickedButtonClass);

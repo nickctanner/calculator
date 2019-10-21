@@ -3,9 +3,9 @@
   "name": "Calculator",
   "version": "1.0.0",
   "description": "Simple quick access calculator",
-  "icons": { "128": "brand128.png" },
+  "icons": { "128": "images/brand128.png" },
   "browser_action": {
-    "default_icon": "brand19.png",
+    "default_icon": "images/brand19.png",
     "default_popup": "index.html"
   },
   "permissions": ["activeTab"]
