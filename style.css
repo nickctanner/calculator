@@ -16,6 +16,8 @@
 
 body {
   background: rgba(0, 217, 255, 0.521);
+  width: 400px;
+  height: 610px;
 }
 
 .op-container {
