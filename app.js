@@ -23,6 +23,11 @@ const handleNumberPadEntry = e => {
 
   if (/[0-9-.\/+*%]|Enter|Backspace|Delete|Percent/g.test(e.key)) {
     const key = e.key;
+    buttons.childNodes.forEach(node => {
+      if (node.value === key) {
+        addClickedButtonClass(node);
+      }
+    });
     combineEntryMethods(key);
   }
 };
@@ -35,12 +40,23 @@ const handleClickedButtonEntry = e => {
   }
 };
 
-const addClickedButtonClass = button => {
-  button.classList.add('clicked');
+const handleRemoveClickedButtonClass = e => {
+  if (e.type === 'mouseup') {
+    const button = e.target;
+    removeClickedButtonClass(button);
+  } else {
+    const key = e.key;
+    buttons.childNodes.forEach(node => {
+      if (node.value === key) {
+        removeClickedButtonClass(node);
+      }
+    });
+  }
 };
 
-const removeClickedButtonClass = e => {
-  const button = e.target;
+const addClickedButtonClass = button => button.classList.add('clicked');
+
+const removeClickedButtonClass = button => {
   button.classList.remove('clicked');
 };
 
@@ -104,16 +120,15 @@ function processEntry(entry) {
       case 'opEnter':
         if (state.currOperation && !state.hasBeenEvaluated) {
           const evaluatedResult = evaluateExpression(state);
-
           state.currOperation = evaluatedResult.toString();
           state.prevAnswer = state.currOperation;
-
           showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
 
           if (entry === 'Enter') {
             state.memory = '';
             state.prevAnswer = '';
           }
+
           state.hasBeenEvaluated = true;
           showStoredMemory.textContent = state.memory;
         }
@@ -133,6 +148,7 @@ function processEntry(entry) {
       case 'Delete':
       case 'Clear':
         state.currOperation = '';
+
         if (!state.memory) state.operator = '';
 
         showCurrentEntry.textContent = state.currOperation;
@@ -170,7 +186,7 @@ function processEntry(entry) {
         }
 
         if (state.operator) {
-          processEntry('opEnter');
+          combineEntryMethods('opEnter');
         }
 
         state.operator = entry;
@@ -189,7 +205,7 @@ function processEntry(entry) {
 }
 
 window.addEventListener('keydown', handleNumberPadEntry);
-window.addEventListener('keydown', removeClickedButtonClass);
+window.addEventListener('keyup', handleRemoveClickedButtonClass);
 
 buttons.addEventListener('mousedown', handleClickedButtonEntry);
-buttons.addEventListener('mouseup', removeClickedButtonClass);
+buttons.addEventListener('mouseup', handleRemoveClickedButtonClass);
