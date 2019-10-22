@@ -1,4 +1,4 @@
-# Simple Calculator (available as a Chrome Extension)
+# Simple Calculator (coming soon, will be available as a Chrome Extension)
 
 Simple Calculator is exactly that. A simple calculator that is for quick calculations and is pleasing to look at.
 
