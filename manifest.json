@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Calculator",
+  "name": "Simple Calculator",
   "version": "1.0.0",
-  "description": "Simple quick access calculator",
+  "description": "Simple, quick access calculator",
   "icons": { "128": "images/brand128.png" },
   "browser_action": {
     "default_icon": "images/brand19.png",
