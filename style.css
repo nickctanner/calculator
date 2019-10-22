@@ -16,8 +16,8 @@
 
 body {
   background: rgba(0, 217, 255, 0.521);
-  width: 400px;
-  height: 610px;
+  width: 380px;
+  height: 580px;
 }
 
 .op-container {
@@ -167,5 +167,6 @@ button.enter:hover {
   button {
     border-radius: 0;
     box-shadow: none;
+    font-size: 1.3rem;
   }
 }
