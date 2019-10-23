@@ -1,6 +1,4 @@
-# Simple Calculator (available as a Chrome Extension )
-
-(https://chrome.google.com/webstore/detail/simple-calculator/bjgpdjapmlhjjekandaelljdnhljiljc)
+# Simple Calculator (available as a [Chrome Extension](https://chrome.google.com/webstore/detail/simple-calculator/bjgpdjapmlhjjekandaelljdnhljiljc))
 
 Simple Calculator is exactly that. A simple calculator that is for quick calculations and is pleasing to look at.
 
