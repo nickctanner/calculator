@@ -65,8 +65,9 @@ const formatDisplayedMemory = ({ memory }) => {
     operator === '*' ? ` x ` : ` ${operator} `
   );
   const maxCharacters = 40;
+  const isSmallScreen = window.screen.width < 481;
 
-  if (formattedMemory.length > maxCharacters) {
+  if (formattedMemory.length > maxCharacters || isSmallScreen) {
     showStoredMemory.style.fontSize = `1.3rem`;
   } else {
     showStoredMemory.style.fontSize = `1.8rem`;
@@ -80,9 +81,10 @@ const formatCurrentDisplayedNumber = ({ currOperation }) => {
     /(\d)(?=(\d{3})+(?!\d))/g,
     '$1,'
   );
-  const maxCharacters = 16;
 
-  if (formattedNumber.length > maxCharacters) {
+  const maxCharacters = 16;
+  const isSmallScreen = window.screen.width < 481;
+  if (formattedNumber.length > maxCharacters || isSmallScreen) {
     showCurrentEntry.style.fontSize = `2.7rem`;
   } else {
     showCurrentEntry.style.fontSize = `3.3rem`;

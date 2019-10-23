@@ -16,7 +16,7 @@
 
 body {
   background: rgba(0, 217, 255, 0.521);
-  width: 380px;
+  width: 400px;
   height: 580px;
 }
 
@@ -116,7 +116,6 @@ button.enter:hover {
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   border-radius: var(--uSizing);
-  font-size: 3.3rem;
   font-weight: 800;
   letter-spacing: 2px;
   min-height: 70px;
