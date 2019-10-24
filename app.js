@@ -18,11 +18,11 @@ const state = {
 
 const combineEntryMethods = method => processEntry(method);
 
-const handleNumberPadEntry = e => {
+const handleKeyboardEntry = e => {
   e.preventDefault();
 
-  if (/[0-9-.\/+*%]|Enter|Backspace|Delete|Percent/g.test(e.key)) {
-    const key = e.key;
+  if (/[0-9-.\/+*%]|Enter|Backspace|Delete|Percent|^a$/.test(e.key)) {
+    const key = e.key === `a` ? `Clearall` : e.key;
     buttons.childNodes.forEach(node => {
       if (node.value === key) {
         addClickedButtonClass(node);
@@ -45,7 +45,7 @@ const handleRemoveClickedButtonClass = e => {
     const button = e.target;
     removeClickedButtonClass(button);
   } else {
-    const key = e.key;
+    const key = e.key === `a` ? `Clearall` : e.key;
     buttons.childNodes.forEach(node => {
       if (node.value === key) {
         removeClickedButtonClass(node);
@@ -74,9 +74,9 @@ const formatDisplayedMemory = ({ memory }) => {
   const isSmallScreen = window.screen.width < 481;
 
   if (formattedMemory.length > maxCharacters || isSmallScreen) {
-    showStoredMemory.style.fontSize = `1.3rem`;
+    showStoredMemory.style.fontSize = `1.1rem`;
   } else {
-    showStoredMemory.style.fontSize = `1.8rem`;
+    showStoredMemory.style.fontSize = `1.7rem`;
   }
 
   return formattedMemory;
@@ -154,7 +154,6 @@ function processEntry(entry) {
         break;
 
       case 'Delete':
-      case 'Clear':
         state.currOperation = '';
 
         if (!state.memory) state.operator = '';
@@ -173,7 +172,8 @@ function processEntry(entry) {
         break;
 
       case '%':
-        state.currOperation = convertPercent(state).toString();
+        if (state.currOperation)
+          state.currOperation = convertPercent(state).toString();
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
         break;
 
@@ -181,7 +181,11 @@ function processEntry(entry) {
       case '-':
       case '*':
       case '/':
-        if (!state.memory && !state.currOperation && !state.prevAnswer) return;
+        if (
+          (!state.memory && !state.currOperation && !state.prevAnswer) ||
+          state.currOperation === '.'
+        )
+          return;
 
         if (state.currOperation) state.memory += state.currOperation + entry;
 
@@ -204,6 +208,7 @@ function processEntry(entry) {
         break;
 
       default:
+        if (state.currOperation.indexOf('.') !== -1 && entry === '.') return;
         state.currOperation += entry;
         state.hasBeenEvaluated = false;
         showCurrentEntry.textContent = formatCurrentDisplayedNumber(state);
@@ -212,7 +217,7 @@ function processEntry(entry) {
   }
 }
 
-window.addEventListener('keydown', handleNumberPadEntry);
+window.addEventListener('keydown', handleKeyboardEntry);
 window.addEventListener('keyup', handleRemoveClickedButtonClass);
 
 buttons.addEventListener('mousedown', handleClickedButtonEntry);
