@@ -2,7 +2,7 @@
 
 Simple Calculator is exactly that. A simple calculator that is for quick calculations and is pleasing to look at.
 
-// Add gif here
+![Calculator operation as a gif](images/calc.gif)
 
 ## Installation
 
@@ -14,13 +14,13 @@ This calculator performs all basic math calculations. There is also a percentage
 
 ## Features
 
-* Simple, clean design
-* Handles large numbers
-* Shows history of inputs
-* Keyboard support
-    * Including Backspace and Delete (Delete button is equal to Clear entry)
-* Percentage calculated inline
-* Works offline
+- Simple, clean design
+- Handles large numbers
+- Shows history of inputs
+- Keyboard support
+  - Including Backspace and Delete (Delete button is equal to Clear entry)
+- Percentage calculated inline
+- Works offline
 
 ## Contributing
 

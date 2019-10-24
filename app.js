@@ -61,9 +61,15 @@ const removeClickedButtonClass = button => {
 };
 
 const formatDisplayedMemory = ({ memory }) => {
-  const formattedMemory = memory.replace(/[^0-9.]/g, operator =>
-    operator === '*' ? ` x ` : ` ${operator} `
-  );
+  const formattedMemory = memory.replace(/[^0-9.]/g, operator => {
+    if (operator === '*') {
+      return ` x `;
+    } else if (operator === '/') {
+      return ` ÷ `;
+    }
+    return ` ${operator} `;
+  });
+
   const maxCharacters = 40;
   const isSmallScreen = window.screen.width < 481;
 
