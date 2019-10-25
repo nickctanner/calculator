@@ -165,7 +165,7 @@ button.enter:hover {
 @media screen and (max-width: 480px) {
   .op-container {
     width: 100vw;
-    height: 80vh;
+    height: 85vh;
     grid-template-columns: repeat(4, 1fr);
     -webkit-column-gap: 0;
     column-gap: 0;
