@@ -165,7 +165,7 @@ button.enter:hover {
 @media screen and (max-width: 480px) {
   .op-container {
     width: 100vw;
-    height: 85vh;
+    height: 90vh;
     grid-template-columns: repeat(4, 1fr);
     -webkit-column-gap: 0;
     column-gap: 0;
@@ -173,11 +173,22 @@ button.enter:hover {
     grid-template-rows: repeat(8, 1fr);
   }
 
-  .op,
+  .op {
+    border-radius: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
   .current {
     border-radius: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
+    min-height: 50px;
+  }
+
+  .saved {
+    margin-right: 15px;
+    min-height: 30px;
   }
 
   button {
