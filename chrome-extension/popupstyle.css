@@ -23,6 +23,8 @@
 
 body {
   background: rgba(0, 217, 255, 0.521);
+  width: 375px;
+  height: 580px;
   margin: 0;
   padding: 0;
 }
