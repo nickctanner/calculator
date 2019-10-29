@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Barlow&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Barlow&display=swap');
 
 :root {
   --uSizing: 3px;
@@ -16,7 +16,7 @@
 ::after {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  font-family: "Barlow", sans-serif;
+  font-family: 'Barlow', sans-serif;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
@@ -166,7 +166,7 @@ button.enter:hover {
   .op-container {
     width: 100vw;
     height: 90vh;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 2fr 2fr 2fr 1.5fr;
     -webkit-column-gap: 0;
     column-gap: 0;
     row-gap: 0;
