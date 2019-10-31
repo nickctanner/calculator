@@ -2,7 +2,7 @@
 
 Simple Calculator is exactly that. A simple calculator that is for quick calculations and is pleasing to look at.
 
-![Calculator operation as a gif](calc2.gif)
+![Calculator operation as a gif](images/calc2.gif)
 
 ## Installation
 
